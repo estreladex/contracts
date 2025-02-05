@@ -31,6 +31,10 @@ pub struct ThreePoolSnapshot {
     pub admin_b_fee_rewards: u128,
     pub admin_c_fee_rewards: u128,
 
+    pub pool_token_balance_a: u128,
+    pub pool_token_balance_b: u128,
+    pub pool_token_balance_c: u128,
+
     pub alice_deposit: UserDeposit,
     pub bob_deposit: UserDeposit,
 
@@ -83,6 +87,10 @@ impl Index<&str> for ThreePoolSnapshot {
             "admin_a_fee_rewards" => &self.admin_a_fee_rewards,
             "admin_b_fee_rewards" => &self.admin_b_fee_rewards,
             "admin_c_fee_rewards" => &self.admin_c_fee_rewards,
+
+            "pool_token_balance_a" => &self.pool_token_balance_a,
+            "pool_token_balance_b" => &self.pool_token_balance_b,
+            "pool_token_balance_c" => &self.pool_token_balance_c,
 
             "total_lp_amount" => &self.total_lp_amount,
             "d" => &self.d,
@@ -144,6 +152,9 @@ impl Snapshot<3> for ThreePoolSnapshot {
             ("Pool admin c fee rewards", "admin_c_fee_rewards", Some(7)),
             ("Pool total lp amount", "total_lp_amount", Some(3)),
             ("Pool d", "d", Some(3)),
+            ("Pool token_balance a", "pool_token_balance_a", Some(3)),
+            ("Pool token_balance b", "pool_token_balance_b", Some(3)),
+            ("Pool token_balance c", "pool_token_balance_c", Some(3)),
         ];
 
         self.print_changes(&balances, other);
@@ -185,6 +196,10 @@ impl Snapshot<3> for ThreePoolSnapshot {
         let admin_b_fee_rewards = pool_info.admin_fee_amount.get_unchecked(1);
         let admin_c_fee_rewards = pool_info.admin_fee_amount.get_unchecked(2);
 
+        let pool_token_balance_a = pool_info.token_balances.get_unchecked(0);
+        let pool_token_balance_b = pool_info.token_balances.get_unchecked(1);
+        let pool_token_balance_c = pool_info.token_balances.get_unchecked(2);
+
         let alice_deposit = testing_env
             .pool_client()
             .user_deposit_by_address(&alice_address);
@@ -215,6 +230,9 @@ impl Snapshot<3> for ThreePoolSnapshot {
             admin_c_fee_rewards,
             alice_deposit,
             bob_deposit,
+            pool_token_balance_a,
+            pool_token_balance_b,
+            pool_token_balance_c,
         }
     }
 }

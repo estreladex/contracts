@@ -269,9 +269,11 @@ pub trait TestingEnv<const N: usize>: Sized {
         let pool_from_balance_key = format!("pool_{from_token_tag}_balance");
         let pool_to_balance_key = format!("pool_{to_token_tag}_balance");
         let acc_reward_token_to_per_share_p_key = format!("acc_reward_{to_token_tag}_per_share_p");
+        let pool_from_token_balance_key = format!("pool_token_balance_{from_token_tag}");
+        let pool_to_token_balance_key = format!("pool_token_balance_{to_token_tag}");
 
         let expected_receive_amount = float_to_uint(expected_receive_amount, 7);
-        let _expected_fee = float_to_uint(expected_fee, 7);
+        let expected_fee = float_to_uint(expected_fee, 7);
         let amount = float_to_uint(amount, 7);
 
         let sender_from_token_diff =
@@ -285,6 +287,9 @@ pub trait TestingEnv<const N: usize>: Sized {
         let pool_to_token_diff =
             snapshot_before[pool_to_balance_key.clone()] - snapshot_after[pool_to_balance_key];
 
+        let pool_from_token_balance_diff = snapshot_after[pool_from_token_balance_key.clone()] - snapshot_before[pool_from_token_balance_key];
+        let pool_to_token_balance_diff = snapshot_before[pool_to_token_balance_key.clone()] - snapshot_after[pool_to_token_balance_key];
+
         assert!(
             snapshot_after[acc_reward_token_to_per_share_p_key.clone()]
                 > snapshot_before[acc_reward_token_to_per_share_p_key]
@@ -293,11 +298,13 @@ pub trait TestingEnv<const N: usize>: Sized {
         assert_eq!(recipient_to_token_diff, expected_receive_amount);
         assert_eq!(pool_to_token_diff, expected_receive_amount);
 
-        assert_eq!(pool_to_token_diff, expected_receive_amount);
-        assert_eq!(recipient_to_token_diff, expected_receive_amount);
-
         assert_eq!(sender_from_token_diff, amount);
         assert_eq!(pool_from_token_diff, amount);
+
+        assert_eq!(pool_from_token_balance_diff * 10000, amount);
+        let to_token_balance_without_fee = pool_to_token_balance_diff * 10000 - expected_fee;
+        assert!(to_token_balance_without_fee - 1 <= expected_receive_amount && expected_receive_amount <= to_token_balance_without_fee);
+
     }
 
     fn assert_deposit(
