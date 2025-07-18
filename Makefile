@@ -4,18 +4,18 @@ all: build-two-pool build-three-pool build-factory
 
 optimize-all: optimize-factory optimize-two-pool optimize-three-pool
 
-TWO_POOL_WASM_PATH = target/wasm32-unknown-unknown/release/two_pool.wasm
-TWO_POOL_WASM_PATH_OP = target/wasm32-unknown-unknown/release/two_pool.optimized.wasm
+TWO_POOL_WASM_PATH = target/wasm32v1-none/release/two_pool.wasm
+TWO_POOL_WASM_PATH_OP = target/wasm32v1-none/release/two_pool.optimized.wasm
 
-THREE_POOL_WASM_PATH = target/wasm32-unknown-unknown/release/three_pool.wasm
-THREE_POOL_WASM_PATH_OP = target/wasm32-unknown-unknown/release/three_pool.optimized.wasm
+THREE_POOL_WASM_PATH = target/wasm32v1-none/release/three_pool.wasm
+THREE_POOL_WASM_PATH_OP = target/wasm32v1-none/release/three_pool.optimized.wasm
 
-FACTORY_WASM_PATH = target/wasm32-unknown-unknown/release/factory.wasm
-FACTORY_WASM_PATH_OP = target/wasm32-unknown-unknown/release/factory.optimized.wasm
-FACTORY_ADDRESS=CDDUAK5NXJ45M5WB32KHTFB7UXJGOKSXY3NGXNEA33BUIJANXXUVBUDE
+FACTORY_WASM_PATH = target/wasm32v1-none/release/factory.wasm
+FACTORY_WASM_PATH_OP = target/wasm32v1-none/release/factory.optimized.wasm
+FACTORY_ADDRESS=CCXV3RHYOB57ZWGNMAQXYHEZ7O7IGAASMEDPZTLUZQQWME26HFYOOPG4
 
-TWO_POOL_WASM_HASH=2560b28700c30872be71bdbc867ce8dc6d7b3a7c9adc89da56eb8deb74fa8691
-THREE_POOL_WASM_HASH=b20b70f4bd7e268da934297f95f56f7b7d9d1061959fee396c020f81179ecf5f
+TWO_POOL_WASM_HASH=dcf9380c7037c3fc2739c4e658f316fb38bef95eccb2cf015f105a1c2fa8ad24
+THREE_POOL_WASM_HASH=e07ada6fb71ecb790827ac05ef8003175ad3f87e8e33162d24845519ca8936f8
 
 ALICE = $$(soroban keys address alice)
 ADMIN_ALIAS = alice
@@ -29,9 +29,9 @@ USDY_ADDRESS=CAOPX7DVI3PFLHE7637YSFU6TLG6Z27Z5O3M547ANAYXQOAYCYYV6NO6# Testnet
 # BOGD:GAYODJWF27E5OQO2C6LA6Z6QXQ2EYUONMXFNL2MNMGRJP6RED2CPQKTW
 BOGD_ADDRESS=CDBDW5BMDBFQGKI4UWUFZQEO7OKFTGNLU5BV2I3DKPJ33OWMKLERRMS6# Testnet
 
-YUSD_YARO_BOGD_POOL=CCYK6EREYDT5UUCYRGX2U2XR35HWG3FMHC6QPJEQVOTY3PJVCNLWAND5 # Testnet
-YUSD_YARO_POOL=CCABJINPFQ5YKE63MXWEBMFGV5CNJSU3GR5XSPFZCY6QEPYEBOGHINRC # Testnet
-YARO_BOGD_POOL=CBG7HCN3U62FAODOHJDIE3CZT7WZIKPRBYNZARQTT5H52Z4MQT6SOH2P # Testnet
+YUSD_YARO_BOGD_POOL=CDZRHDQPKL5QXJUIJYUG4GJDYEGZE4AW72JA2O4ZP52BS5743CA5WQOQ # Testnet
+YUSD_YARO_POOL=CBK5DQMNGPQKEGFNGBBHP7AG72RYYFYZMNHGOHWGEWWPWIYY5IL7YEYX # Testnet
+YARO_BOGD_POOL=CAAVJHUXHZ5RSTMZ4JMRY6AOP3HECEOCCOFLPDXIZL7VMMWARALZX74F # Testnet
 
 TOKEN_ADDRESS=$(BOGD_ADDRESS)
 POOL_ADDRESS=$(YUSD_YARO_BOGD_POOL)
@@ -39,10 +39,10 @@ POOL_ADDRESS=$(YUSD_YARO_BOGD_POOL)
 NETWORK=testnet
 
 prepare: update-soroban-cli
-	rustup target add wasm32-unknown-unknown
+	rustup target add wasm32v1-none
 
 update-soroban-cli:
-	cargo install soroban-cli --features opt
+	cargo install soroban-cli
 
 clean-test: clean-target
 	make test
