@@ -38,8 +38,11 @@ POOL_ADDRESS=$(YUSD_YARO_BOGD_POOL)
 
 NETWORK=testnet
 
-prepare: update-soroban-cli
+prepare: rustup-update update-soroban-cli
 	rustup target add wasm32v1-none
+
+rustup-update:
+	rustup update
 
 update-soroban-cli:
 	cargo install soroban-cli
